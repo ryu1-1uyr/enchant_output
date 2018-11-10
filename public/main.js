@@ -18,7 +18,7 @@ const PUYOS_IMG = "puyo.png";
 //
 // });
 
-const createPuyo = (game) => {
+const createPuyo = game => {
     const puyo = new Sprite(CELL_SIZE, CELL_SIZE);
     puyo.image = game.assets[PUYOS_IMG];
     puyo.frame = Math.floor(Math.random()*4+1); // ランダムに色を選択
@@ -150,7 +150,6 @@ const freeFall = field => {
 const chain = field => {
     for (let i=0; i<MAX_ROW; i++) {
         for (let j=0; j<MAX_COL; j++) {
-            let n = 0; // つながっているぷよをカウントする変数を初期化
             if (field[i][j]>=1 && countPuyos(i, j, field)>=4){ // 同じ色のぷよが４つながっていた場合
                 deletePuyos(i, j, field); // ぷよを消去
             };
