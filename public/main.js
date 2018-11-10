@@ -2,7 +2,7 @@ enchant();
 let game,scene;
 
 const  MAX_ROW = 15; // 縦のマス数
-const  MAX_COL = 8; // 横のマス数 
+const  MAX_COL = 8; // 横のマス数
 const  CELL_SIZE = 16; // マスのサイズ(ぷよのpxサイズ)
 const PUYOS_IMG = "puyopuyo.png";
 

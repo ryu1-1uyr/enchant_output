@@ -1,4 +1,4 @@
-# 選択講義でコードを提出するためのあれこれ
+# enchant.jsで遊ぼうの会
 
 - 理想はオンラインで何かできるやつ
 - ぷよぷよする
@@ -9,4 +9,4 @@ http://enchantjs.com/ja/ <br>
 
 
 
-s17001 Ryu (<a src="https://twitter.com/Ryu1__1uyR">@Ryu1__1uyR</a>)
+s17001 [Ryu](https://twitter.com/Ryu1__1uyR)
