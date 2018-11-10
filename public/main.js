@@ -2,7 +2,7 @@ enchant();
 let game,scene;
 
 const  MAX_ROW = 15; // 縦のマス数
-const  MAX_COL = 8; // 横のマス数
+const  MAX_COL = 8; // 横のマス数 
 const  CELL_SIZE = 16; // マスのサイズ(ぷよのpxサイズ)
 const PUYOS_IMG = "puyopuyo.png";
 
@@ -211,9 +211,7 @@ const main = () => {
     game.keybind(32, 'a'); // スペースバーにAボタンを割り当て
     game.score = 0;
 
-
-
-    game.on('load',()=>{
+    game.on('load',() => {
         const field = new Array(15); // フィールドの色のデータ　なんか不恰好
         const map = makeField(field);
 
@@ -222,7 +220,7 @@ const main = () => {
         let pair = createPair(game, map, field); // 操作するぷよ２つを作成
         scene.addChild(pair);   // 操作ぷよをシーンに追加
 
-        scene.addEventListener("enterframe", function() { // １フレームごとに呼び出される関数を登録
+        scene.on("enterframe", function() { // １フレームごとに呼び出される関数を登録
             if (!pair.isFall) {                  // 操作ぷよの着地判定
                 scene.removeChild(pair); // 操作ぷよをシーンから削除
                 freeFall(field);                 // 自由落下
@@ -244,6 +242,4 @@ const main = () => {
 };
 
 
-
-
-window.addEventListener('load',main());
+window.addEventListener('touchstart',main());
