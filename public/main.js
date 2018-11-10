@@ -8,6 +8,32 @@ const  CELL_SIZE = 16; // マスのサイズ(ぷよのpxサイズ)
 const PUYOS_IMG = "puyo.png";
 
 
+// const Puyo = Class.create( Sprite , { 何がダメなんこれ
+//     initialize: function() {
+//         Sprite.call(16,16);
+//         // this.image = PUYOS_IMG ;
+//         // this.frame = Math.floor(Math.random()*4+1);
+//         // this.moveTo(0, 0);
+//     }
+//
+// });
+
+const createPuyo = (game) => {
+    const puyo = new Sprite(CELL_SIZE, CELL_SIZE);
+    puyo.image = game.assets[PUYOS_IMG];
+    puyo.frame = Math.floor(Math.random()*4+1); // ランダムに色を選択
+    puyo.moveTo(0, 0);
+    return puyo;
+};
+
+// function createPuyo (game){
+//     var puyo = new Sprite(CELL_SIZE, CELL_SIZE);
+//     puyo.image = game.assets[PUYOS_IMG];
+//     puyo.frame = Math.floor(Math.random()*4+1); // ランダムに色を選択
+//     puyo.moveTo(0, 0);
+//     return puyo;
+// }
+
 
 const main = () => {
     game = new Core(320,320);
@@ -38,6 +64,8 @@ const main = () => {
         map.loadData(field);    // mapにフィールドを読みこませる
 
         scene.addChild(map);
+
+        scene.addChild(createPuyo(game));
 
     });
     game.start();
