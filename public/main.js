@@ -1,5 +1,4 @@
 enchant();
-console.log("");
 let game,scene;
 
 const  MAX_ROW = 15; // 縦のマス数
@@ -27,10 +26,10 @@ const createPuyo = game => {
 };
 
 const createPair = (game, map, field) => {
-    let pair = new Group();
-    let rotationPuyo = createPuyo(game);  // 回る側の操作ぷよ
-    let axisPuyo = createPuyo(game);  // 軸側の操作ぷよ
-    let forms = [[0, -CELL_SIZE], [CELL_SIZE, 0], [0, CELL_SIZE], [-CELL_SIZE, 0]]; // 操作ぷよの形
+    const pair = new Group();
+    const rotationPuyo = createPuyo(game);  // 回る側の操作ぷよ
+    const axisPuyo = createPuyo(game);  // 軸側の操作ぷよ
+    const forms = [[0, -CELL_SIZE], [CELL_SIZE, 0], [0, CELL_SIZE], [-CELL_SIZE, 0]]; // 操作ぷよの形
     let formNum = 0;                    // 操作ぷよの形の番号。フォームナンバ
     /* キー押下カウント */
     let inputRightCount = 0;
@@ -38,8 +37,10 @@ const createPair = (game, map, field) => {
     pair.isFall = true;            // 落下中、つまり操作出来る状態かどうか
     pair.addChild(rotationPuyo);             // 操作ぷよをシーンに追加
     pair.addChild(axisPuyo);
-    rotationPuyo.y = -CELL_SIZE;     // 回る側のぷよの初期位置を軸ぷよの一つ上へ
+    rotationPuyo.y = - CELL_SIZE ;     // 回る側のぷよの初期位置を軸ぷよの一つ上へ
     pair.moveTo(CELL_SIZE*3, CELL_SIZE); // グループの初期位置を操作ぷよ出現場所へ
+
+    //闇の処理
     pair.addEventListener("enterframe", function() {
         // フレーム毎の処理
         // キー連続押下カウントの更新 闇の処理
@@ -49,16 +50,16 @@ const createPair = (game, map, field) => {
 
         /* 回転 */
         if (inputACount == 1) {
-            let newFormNum = (formNum+1) % 4; // 回転した場合のフォームナンバ
-            let newX = forms[newFormNum][0];  // 回転先のx
-            let newY = forms[newFormNum][1];  // 回転先のy
+            const newFormNum = (formNum+1) % 4; // 回転した場合のフォームナンバ
+            const newX = forms[newFormNum][0];  // 回転先のx
+            const newY = forms[newFormNum][1];  // 回転先のy
             if (!map.hitTest(this.x+newX, this.y+newY)) { // 回転可能判定
                 formNum = newFormNum;
                 rotationPuyo.moveTo(newX, newY);
             }
         }
 
-        /* 横移動 */
+        // 横移動
         let newX = 0;                   // 横移動先のx
         if (inputRightCount == 1) {
             newX = formNum==1 ? rotationPuyo.x+CELL_SIZE : axisPuyo.x+CELL_SIZE;
@@ -67,10 +68,10 @@ const createPair = (game, map, field) => {
             newX = formNum==3 ? rotationPuyo.x-CELL_SIZE : axisPuyo.x-CELL_SIZE;
         }
         if (!map.hitTest(this.x+newX, this.y+rotationPuyo.y) && !map.hitTest(this.x+newX, this.y+axisPuyo.y)) { // 移動可能判定
-            this.x = this.x + (newX?newX>=0?1:-1:0)*CELL_SIZE;
+            this.x = this.x + (newX ? newX >= 0 ? 1 : -1 : 0)*CELL_SIZE;
         }
 
-        /* 落下 */
+        // 落下
         newY = formNum==2 ? rotationPuyo.y+CELL_SIZE : axisPuyo.y+CELL_SIZE;
         let vy = Math.floor(game.input.down ? game.fps/10 : game.fps/1); // 落下速度の設定 (10や1などの数値は何マス毎秒か
         if (game.frame%vy == 0) {
@@ -84,17 +85,27 @@ const createPair = (game, map, field) => {
             }
         }
     });
+
+
     return pair;
 };
 
 const  countPuyos = (row, col, field) => {
-    let c = field[row][col];    // ぷよの色
+    const c = field[row][col];    // ぷよの色
     let n = 1;                  // 1で初期化しているのは自分もカウントするため。
     field[row][col] = -1; // この場所をチェックした証として一時的に空白に
-    if (row-1>=2 && field[row-1][col]==c) n += countPuyos(row-1, col, field);
-    if (row+1<=MAX_ROW-2 && field[row+1][col]==c) n += countPuyos(row+1, col, field);
-    if (col-1>=1 && field[row][col-1]==c) n += countPuyos(row, col-1, field);
-    if (col+1<=MAX_COL-2 && field[row][col+1]==c) n += countPuyos(row, col+1, field);
+    if (row-1>=2 && field[row-1][col]==c) {
+        n += countPuyos(row-1, col, field)
+    };
+    if (row+1<=MAX_ROW-2 && field[row+1][col]==c) {
+        n += countPuyos(row+1, col, field)
+    };
+    if (col-1>=1 && field[row][col-1]==c) {
+        n += countPuyos(row, col-1, field)
+    };
+    if (col+1<=MAX_COL-2 && field[row][col+1]==c) {
+        n += countPuyos(row, col+1, field)
+    };
     field[row][col] = c;                // 色を戻す
     return n;
 };
@@ -109,22 +120,22 @@ const addScore = () =>{
  * 消していきます。
  */
 const  deletePuyos = (row, col, field) => {
-    let c = field[row][col];    // ぷよの色
+    const c = field[row][col];    // ぷよの色
     field[row][col] = -1;               // ぷよを空に
-    if (row-1>=2 && field[row-1][col]==c) {
-        deletePuyos(row-1, col, field)
+    if (row-1>=2 && field[row-1][col] == c) {
+        deletePuyos(row-1, col, field);
         addScore();
     };
-    if (row+1<=MAX_ROW-2 && field[row+1][col]==c) {
-        deletePuyos(row+1, col, field)
+    if (row+1<=MAX_ROW-2 && field[row+1][col] == c) {
+        deletePuyos(row+1, col, field);
         addScore();
     };
-    if (col-1>=1 && field[row][col-1]==c) {
-        deletePuyos(row, col-1, field)
+    if (col-1>=1 && field[row][col-1] == c) {
+        deletePuyos(row, col-1, field);
         addScore();
     };
-    if (col+1<=MAX_COL-2 && field[row][col+1]==c) {
-        deletePuyos(row, col+1, field)
+    if (col+1<=MAX_COL-2 && field[row][col+1] == c) {
+        deletePuyos(row, col+1, field);
         addScore();
     };
 }
@@ -137,11 +148,12 @@ const  deletePuyos = (row, col, field) => {
  */
 const freeFall = field => {
     let c = 0;                                  // おちたぷよの数
-    for (let i=0; i<MAX_COL; i++) {
+    for (let i = 0; i < MAX_COL; i++) {
         let spaces = 0;
         for (let j=MAX_ROW-1; j>=0; j--) {
-            if (field[j][i] == -1) spaces ++;
-            else if (spaces >= 1) {     // 落ちるべきぷよがあった場合
+            if (field[j][i] == -1) {
+                spaces ++
+            } else if (spaces >= 1) {     // 落ちるべきぷよがあった場合
                 field[j+spaces][i] = field[j][i];
                 field[j][i] = -1;
                 c ++;
@@ -149,7 +161,7 @@ const freeFall = field => {
         }
     }
     return c;
-}
+};
 
 /**
  * 連鎖処理を行います。
@@ -159,8 +171,8 @@ const freeFall = field => {
  * @field {Array} フィールドの色情報が格納された二次元配列
  */
 const chain = field => {
-    for (let i=0; i<MAX_ROW; i++) {
-        for (let j=0; j<MAX_COL; j++) {
+    for (let i = 0; i < MAX_ROW; i++) {
+        for (let j = 0; j < MAX_COL; j++) {
             if (field[i][j]>=1 && countPuyos(i, j, field)>=4){ // 同じ色のぷよが４つながっていた場合
                 deletePuyos(i, j, field); // ぷよを消去
             };
@@ -171,13 +183,13 @@ const chain = field => {
     }; // 自由落下したぷよがあった場合は再帰
 };
 
-const makeField = (field) => {
-    for (let i=0; i<field.length; i++) {
+const makeField = field => {
+    for (let i = 0; i < field.length; i++) {
         let temp_array = [];
-        for (let j=0; j<8; j++){ //横マス
+        for (let j = 0; j < 8; j++){ //横マス
             if (j == 0 || j == 7 || i == 14) {  //縦、横マスの数
                 temp_array[j] = 0; // ブロック(壁)を配置
-            } else{
+            } else {
                 temp_array[j] = -1; // 空
             }
         }
