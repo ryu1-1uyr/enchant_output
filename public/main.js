@@ -4,7 +4,7 @@ let game,scene;
 const  MAX_ROW = 15; // 縦のマス数
 const  MAX_COL = 8; // 横のマス数
 const  CELL_SIZE = 16; // マスのサイズ(ぷよのpxサイズ)
-const PUYOS_IMG = "puyo.png";
+const PUYOS_IMG = "puyopuyo.png";
 
 
 // const Puyo = Class.create( Sprite , { 何がダメなんこれ
@@ -72,7 +72,7 @@ const createPair = (game, map, field) => {
         }
 
         // 落下
-        newY = formNum==2 ? rotationPuyo.y+CELL_SIZE : axisPuyo.y+CELL_SIZE;
+        newY = formNum == 2 ? rotationPuyo.y + CELL_SIZE : axisPuyo.y + CELL_SIZE;
         let vy = Math.floor(game.input.down ? game.fps/10 : game.fps/1); // 落下速度の設定 (10や1などの数値は何マス毎秒か
         if (game.frame%vy == 0) {
             if (!map.hitTest(this.x+rotationPuyo.x, this.y+newY) && !map.hitTest(this.x+axisPuyo.x, this.y+newY)) { // 移動可能判定
@@ -115,9 +115,9 @@ const addScore = () =>{
     document.getElementById("score").innerText = game.score;
 };
 /**
- * 指定された場所のぷよを消します。
- * 隣接されたぷよが同じ色だった場合は再帰呼び出しし、
- * 消していきます。
+ * 指定された場所のぷよを消す
+ * 隣接されたぷよが同じ色だった場合は再帰呼び出す
+ *
  */
 const  deletePuyos = (row, col, field) => {
     const c = field[row][col];    // ぷよの色
@@ -141,7 +141,7 @@ const  deletePuyos = (row, col, field) => {
 }
 /**
  * 下が空いているぷよを落とした状態にするよう
- * フィールドを更新し、落ちたぷよの数を返します。
+ * フィールドを更新し、落ちたぷよの数を返す
  *
  * @field {Array} フィールドの色情報が格納された二次元配列
  * @return {Number} 落ちたぷよの数
@@ -164,9 +164,9 @@ const freeFall = field => {
 };
 
 /**
- * 連鎖処理を行います。
- * 消去と自動落下を繰り返して連鎖を終了させます。
- * 自動落下が発生しなかった場合は再帰呼び出しをせずに終了します。
+ * 連鎖処理
+ * 消去と自動落下を繰り返して連鎖を終了させる
+ * 自動落下が発生しなかった場合は再帰呼び出しをせずに終了
  *
  * @field {Array} フィールドの色情報が格納された二次元配列
  */
@@ -207,7 +207,7 @@ const main = () => {
     game = new Core(320,320);
     scene  = game.rootScene;
     game.fps = 60;
-    game.preload('puyo.png');
+    game.preload('puyopuyo.png');
     game.keybind(32, 'a'); // スペースバーにAボタンを割り当て
     game.score = 0;
 
