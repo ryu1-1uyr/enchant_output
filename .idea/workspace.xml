@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1c88fbd0-28a6-4edc-9329-afe35995747e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/public/main.js" afterPath="$PROJECT_DIR$/public/main.js" />
-    </list>
+    <list default="true" id="1c88fbd0-28a6-4edc-9329-afe35995747e" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -58,7 +56,6 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>cont</find>
-      <find>var</find>
       <find>var</find>
     </findStrings>
     <replaceStrings>
@@ -302,12 +299,12 @@
       <workItem from="1541119677240" duration="4749000" />
       <workItem from="1541378588210" duration="1720000" />
       <workItem from="1541847866008" duration="22000" />
-      <workItem from="1541848013954" duration="3334000" />
+      <workItem from="1541848013954" duration="3428000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24544000" />
+    <option name="totallyTimeSpent" value="24638000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="877" extended-state="6" />
