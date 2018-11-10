@@ -46,6 +46,7 @@ const createPair = (game, map, field) => {
         inputRightCount = game.input.right ? inputRightCount+1 : 0;
         inputLeftCount = game.input.left ? inputLeftCount+1 : 0;
         inputACount = game.input.a ? inputACount+1 : 0;
+
         /* 回転 */
         if (inputACount == 1) {
             let newFormNum = (formNum+1) % 4; // 回転した場合のフォームナンバ
@@ -56,6 +57,7 @@ const createPair = (game, map, field) => {
                 rotationPuyo.moveTo(newX, newY);
             }
         }
+
         /* 横移動 */
         let newX = 0;                   // 横移動先のx
         if (inputRightCount == 1) {
@@ -67,6 +69,7 @@ const createPair = (game, map, field) => {
         if (!map.hitTest(this.x+newX, this.y+rotationPuyo.y) && !map.hitTest(this.x+newX, this.y+axisPuyo.y)) { // 移動可能判定
             this.x = this.x + (newX?newX>=0?1:-1:0)*CELL_SIZE;
         }
+
         /* 落下 */
         newY = formNum==2 ? rotationPuyo.y+CELL_SIZE : axisPuyo.y+CELL_SIZE;
         let vy = Math.floor(game.input.down ? game.fps/10 : game.fps/1); // 落下速度の設定 (10や1などの数値は何マス毎秒か
@@ -94,8 +97,12 @@ const  countPuyos = (row, col, field) => {
     if (col+1<=MAX_COL-2 && field[row][col+1]==c) n += countPuyos(row, col+1, field);
     field[row][col] = c;                // 色を戻す
     return n;
-}
+};
 
+const addScore = () =>{
+    game.score += 10;
+    document.getElementById("score").innerText = game.score;
+};
 /**
  * 指定された場所のぷよを消します。
  * 隣接されたぷよが同じ色だった場合は再帰呼び出しし、
@@ -106,15 +113,19 @@ const  deletePuyos = (row, col, field) => {
     field[row][col] = -1;               // ぷよを空に
     if (row-1>=2 && field[row-1][col]==c) {
         deletePuyos(row-1, col, field)
+        addScore();
     };
     if (row+1<=MAX_ROW-2 && field[row+1][col]==c) {
         deletePuyos(row+1, col, field)
+        addScore();
     };
     if (col-1>=1 && field[row][col-1]==c) {
         deletePuyos(row, col-1, field)
+        addScore();
     };
     if (col+1<=MAX_COL-2 && field[row][col+1]==c) {
         deletePuyos(row, col+1, field)
+        addScore();
     };
 }
 /**
@@ -155,7 +166,9 @@ const chain = field => {
             };
         }
     }
-    if (freeFall(field) >= 1) chain(field); // 自由落下したぷよがあった場合は再帰
+    if (freeFall(field) >= 1) {
+        chain(field)
+    }; // 自由落下したぷよがあった場合は再帰
 };
 
 const makeField = (field) => {
@@ -184,6 +197,7 @@ const main = () => {
     game.fps = 60;
     game.preload('puyo.png');
     game.keybind(32, 'a'); // スペースバーにAボタンを割り当て
+    game.score = 0;
 
 
 
