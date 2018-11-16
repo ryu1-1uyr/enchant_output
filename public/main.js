@@ -7,23 +7,23 @@ const  CELL_SIZE = 16; // マスのサイズ(ぷよのpxサイズ)
 const PUYOS_IMG = "puyopuyo.png";
 
 
-// const Puyo = Class.create( Sprite , { 何がダメなんこれ
-//     initialize: function() {
-//         Sprite.call(16,16);
-//         // this.image = PUYOS_IMG ;
-//         // this.frame = Math.floor(Math.random()*4+1);
-//         // this.moveTo(0, 0);
-//     }
-//
-// });
+const createPuyo = Class.create( Sprite , { //何がダメなんこれ
+    initialize: function() {
+        Sprite.call(this,16,16);
+        this.image = PUYOS_IMG ;
+        this.frame = Math.floor(Math.random()*4+1);
+        this.moveTo(0, 0);
+    }
 
-const createPuyo = game => {
-    const puyo = new Sprite(CELL_SIZE, CELL_SIZE);
-    puyo.image = game.assets[PUYOS_IMG];
-    puyo.frame = Math.floor(Math.random()*4+1); // ランダムに色を選択
-    puyo.moveTo(0, 0);
-    return puyo;
-};
+});
+
+// const createPuyo = game => {
+//     const puyo = new Sprite(CELL_SIZE, CELL_SIZE);
+//     puyo.image = game.assets[PUYOS_IMG];
+//     puyo.frame = Math.floor(Math.random()*4+1); // ランダムに色を選択
+//     puyo.moveTo(0, 0);
+//     return puyo;
+// };
 
 const createPair = (game, map, field) => {
     const pair = new Group();
