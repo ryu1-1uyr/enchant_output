@@ -170,7 +170,7 @@ const freeFall = field => {
  *
  * @field {Array} フィールドの色情報が格納された二次元配列
  */
-const chain = field => {
+const chain = field => { //mod 7 でいけるかもしれない
     for (let i = 0; i < MAX_ROW; i++) {
         for (let j = 0; j < MAX_COL; j++) {
             if (field[i][j]>=1 && countPuyos(i, j, field)>=4){ // 同じ色のぷよが４つながっていた場合
@@ -242,4 +242,4 @@ const main = () => {
 };
 
 
-window.addEventListener('touchstart',main());
+window.addEventListener('load',main());
