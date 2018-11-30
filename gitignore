@@ -1,0 +1,7 @@
+node_modules
+package-lock.json
+
+public/enchant.js
+.idea
+.DS_Store
+.gitignore
